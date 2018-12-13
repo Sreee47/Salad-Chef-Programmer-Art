@@ -13,7 +13,7 @@ public class PlayerControllerScript : MonoBehaviour {
     public KeyCode dropItem = KeyCode.G;
 
     //Declaring initial speed of the player
-    public float playerSpeed = 1.0f;
+    public float playerSpeed = 3.0f;
 
     //declaring and initializing inital time for the player 
     public float timeLeft = 120f;
@@ -27,13 +27,28 @@ public class PlayerControllerScript : MonoBehaviour {
     //List of vegetables that the player had dropped on to the chop board
     public List<GameObject> playerChopPlate;
 
+    //List of vegetables placed on the extra plate
     public List<GameObject> servingPlateItem;
 
+    //List of customers
+    public List<GameObject> customerList;
+
+    public List<GameObject> customerDineList;
+
+    //Declaration for chopboard of the player
     public GameObject chopBoard;
+
+    //Extra plate for the player
     public GameObject servingPlate;
+
+    //Trash can declaration
     public GameObject trashCan;
 
     private float defaultSpeed;
+
+    //to determine wether its a combination to be served for the customer.
+    public bool combinationReadyToServe;
+
     public bool canMove = true;
 	// Use this for initialization
 	void Start () {
@@ -41,6 +56,9 @@ public class PlayerControllerScript : MonoBehaviour {
         playerBasket = new List<GameObject>(2);
         playerChopPlate = new List<GameObject>(3);
         servingPlateItem = new List<GameObject>(1);
+        customerList = new List<GameObject>(5);
+        customerDineList = new List<GameObject>(3);
+        combinationReadyToServe = false;
 
 	}
 	
@@ -147,7 +165,7 @@ public class PlayerControllerScript : MonoBehaviour {
         {
             if(item.gameObject.tag == "VEGETABLES")
             {
-                print("in pickitem collider");
+                print("vegetables");
                 GameObject vegItemPrefab = Instantiate(item.gameObject, transform.position, Quaternion.identity);
                 playerBasket.Add(vegItemPrefab);
                 vegItemPrefab.tag = "Untagged";
@@ -159,11 +177,41 @@ public class PlayerControllerScript : MonoBehaviour {
                 
             }
 
+            //Picking the vegetable placed over the extra plate
+            if(item.gameObject == servingPlate && servingPlateItem.Count == 1)
+            {
+                print("serving plate");
+                GameObject vegItemPrefab = servingPlateItem[servingPlateItem.Count - 1];
+                servingPlateItem.Remove(vegItemPrefab);
+                playerBasket.Add(vegItemPrefab);
+                vegItemPrefab.transform.parent = transform;
+                
+
+            }
+
+            //Picking particular combination from the chopBoar for the customer serving.
+            if (item.gameObject == chopBoard && playerBasket.Count==0 && playerChopPlate.Count!=0)
+            {
+                print("picking choped combinaiton");
+                foreach(var vegItem in playerChopPlate)
+                {
+                    
+                    playerBasket.Add(vegItem);
+                    vegItem.transform.parent = transform;
+                 
+                }
+                playerChopPlate.Clear();
+                combinationReadyToServe = true;
+            }
+
+
+
+
         }
 
     }
 
-    //To drop particular vegetable 
+    //To drop particular vegetable& combination.
     void DropItemFunc(Collider2D item)
     {
         
@@ -194,7 +242,7 @@ public class PlayerControllerScript : MonoBehaviour {
                 
                 Destroy(playerBasket[playerBasket.Count - 1]);
                 playerBasket.Remove(playerBasket[playerBasket.Count-1]);
-                
+                combinationReadyToServe = false;
                 
             }
 
@@ -210,7 +258,27 @@ public class PlayerControllerScript : MonoBehaviour {
                 }
                      
             }
+
+            //Dropping combination for the customer
+            if(item.gameObject.tag == "DiningPlate"  && combinationReadyToServe)
+            {
+                foreach(var vegItem in playerBasket)
+                {
+                    customerDineList.Add(vegItem);
+                    vegItem.transform.parent = item.gameObject.transform;
+
+                }
+                playerBasket.Clear();
+                CalculatePoints();
+            }
         }
+    }
+
+
+    //Verifying combination and Calculating points after the combination is given to the customer
+    void CalculatePoints()
+    {
+
     }
 
     // disable the player movement for chopping vegetables
