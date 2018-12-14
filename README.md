@@ -11,20 +11,31 @@ If the customer is served with a varitey of salad he likes the point gets added 
     * Picking up a vegetable of his/her choice.
     * Dropping the chosen vegetables to the extra plate and the choppping board.
     * Combination of salad can be made by droping different varites of veggies to the chopping board.
-
+    
 3. Player action is disabled for a point of time if the player keeps a vegetable on the chopping board.
 
+4. Picking up of veggies from the extra plate.
+
+5. Picking up combinaton of salad from the chopping board.
+
+6. Disposing veggies and combinations in the trash can. 
+
+7. Serving salad to the customers.
+
 # Updates
-1. Picking up of veggies from the extra plate.
-2. Picking up combinaton of salad from the chopping board.
-3. Disposing veggies and combinations in the trash can. 
-4. Serving salad to the customers. 
+1. Bug Fix - Automatic movement of the player during choping is fixed. 
+1. Multiplayer Added.
+2. Customer Management - combination verification for the customer.
+3. Customer Timer added.
+4. Angry customer and cool down added -  The customer who is angry will burn up their timer fast if they are not cooled asap. 
+3. Score Management of the players- based on the customer reactions and player interaction with customer.
+4. HUD Display added for timer and score displaye.
+5. Timer Management
+6. Winner Decision and Display.
+7. Restart Button implemented
 
 
 # Upcomming Updates 
-1. Customer Management - combination verification for the customer.
-2. Score Management for the player.
-3. Power ups based on the player performance.
-5. Timer management.
-6. Winner Decesion.
+1. Power ups based on the player performance.
+
 

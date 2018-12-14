@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerControllerScript : MonoBehaviour {
 
     //Declaring key controllers for player movement
@@ -19,7 +19,7 @@ public class PlayerControllerScript : MonoBehaviour {
     public float timeLeft = 120f;
 
     //Initial score of the player
-    public int score = 0;
+    public int playerScore = 0;
 
     //List to store the vegetables that the player had picked
     public List<GameObject> playerBasket;
@@ -50,6 +50,11 @@ public class PlayerControllerScript : MonoBehaviour {
     public bool combinationReadyToServe;
 
     public bool canMove = true;
+
+    //Hud display for the score of the player
+    public Text playerScoreText;
+    public Text playerTimeLeft;
+
 	// Use this for initialization
 	void Start () {
         defaultSpeed = playerSpeed;
@@ -64,17 +69,18 @@ public class PlayerControllerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
         Timer();
+        HudDisplay();
         MovePlayer();
     }
 
-    //FixedUpdate is called every fixed frames.
-    //This is commonly used for rigidbody movements.
-    private void FixedUpdate()
-    {
-       
-    }
 
+    void HudDisplay()
+    {
+        playerScoreText.text = "Score : " + playerScore.ToString();
+        playerTimeLeft.text = "Time : " + timeLeft.ToString();
+    }
     //Timer function to controle the gametime left and to pause the player once the time is up
     void Timer()
     {
@@ -130,7 +136,8 @@ public class PlayerControllerScript : MonoBehaviour {
         }
         else
         {
-            return;
+            this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+           
         }
     }
     
@@ -147,12 +154,12 @@ public class PlayerControllerScript : MonoBehaviour {
 
         if (Input.GetKeyDown(pickItem))
         {
-            print("f pressed");
+           
             PickItemFunc(item);
         }
         else if (Input.GetKeyDown(dropItem))
         {
-            print("g pressed");
+            
             DropItemFunc(item);
         }
     }
@@ -165,7 +172,7 @@ public class PlayerControllerScript : MonoBehaviour {
         {
             if(item.gameObject.tag == "VEGETABLES")
             {
-                print("vegetables");
+                
                 GameObject vegItemPrefab = Instantiate(item.gameObject, transform.position, Quaternion.identity);
                 playerBasket.Add(vegItemPrefab);
                 vegItemPrefab.tag = "Untagged";
@@ -180,7 +187,7 @@ public class PlayerControllerScript : MonoBehaviour {
             //Picking the vegetable placed over the extra plate
             if(item.gameObject == servingPlate && servingPlateItem.Count == 1)
             {
-                print("serving plate");
+              
                 GameObject vegItemPrefab = servingPlateItem[servingPlateItem.Count - 1];
                 servingPlateItem.Remove(vegItemPrefab);
                 playerBasket.Add(vegItemPrefab);
@@ -192,7 +199,7 @@ public class PlayerControllerScript : MonoBehaviour {
             //Picking particular combination from the chopBoar for the customer serving.
             if (item.gameObject == chopBoard && playerBasket.Count==0 && playerChopPlate.Count!=0)
             {
-                print("picking choped combinaiton");
+                
                 foreach(var vegItem in playerChopPlate)
                 {
                     
@@ -211,7 +218,7 @@ public class PlayerControllerScript : MonoBehaviour {
 
     }
 
-    //To drop particular vegetable& combination.
+    //To drop particular vegetable & combination.
     void DropItemFunc(Collider2D item)
     {
         
@@ -221,12 +228,12 @@ public class PlayerControllerScript : MonoBehaviour {
              // Drop the vegetable to the chopboard
             if (item.gameObject== chopBoard.gameObject)
             {
-                
+                print("chopBoard");
                 if (playerChopPlate.Count<3)
                 {
                     if (playerBasket.Count > 0)
                     {
-                        print("in drop logic");
+                       
                         GameObject vegItem = playerBasket[playerBasket.Count - 1];
                         playerChopPlate.Add(vegItem);
                         vegItem.transform.parent = chopBoard.gameObject.transform;
@@ -243,12 +250,14 @@ public class PlayerControllerScript : MonoBehaviour {
                 Destroy(playerBasket[playerBasket.Count - 1]);
                 playerBasket.Remove(playerBasket[playerBasket.Count-1]);
                 combinationReadyToServe = false;
+                playerScore -= 10;
                 
             }
 
             //drop vegetable to the side plates
             if (item.gameObject == servingPlate.gameObject)
             {
+                print("serving plate");
                 if (servingPlateItem.Count < 1)
                 {
                     GameObject vegItem = playerBasket[playerBasket.Count - 1];
@@ -262,6 +271,12 @@ public class PlayerControllerScript : MonoBehaviour {
             //Dropping combination for the customer
             if(item.gameObject.tag == "DiningPlate"  && combinationReadyToServe)
             {
+                List<Transform> childVeggies =new List<Transform>(3);
+                foreach(Transform vegChilds in item.gameObject.transform)
+                {
+                   
+                    childVeggies.Add(vegChilds);
+                }
                 foreach(var vegItem in playerBasket)
                 {
                     customerDineList.Add(vegItem);
@@ -269,16 +284,71 @@ public class PlayerControllerScript : MonoBehaviour {
 
                 }
                 playerBasket.Clear();
-                CalculatePoints();
+                combinationReadyToServe = false;
+                CalculatePoints(childVeggies,item.transform.parent);
             }
         }
     }
 
 
     //Verifying combination and Calculating points after the combination is given to the customer
-    void CalculatePoints()
+    void CalculatePoints(List<Transform> childVegies, Transform customer)
     {
+        bool addPoint = true;
+        
+        if(customerDineList.Count < childVegies.Count) 
+        {
+            addPoint = false;
+            ClearDiningTable();
+        }
+        else
+        {
+           foreach(Transform item in childVegies)
+            {
 
+                foreach(var dineItem in customerDineList)
+                {
+                    if (dineItem.name.Contains(item.name))
+                    {
+                        addPoint = true;
+                        break;
+                        
+                    }
+                    else
+                    {
+                        addPoint = false;
+                    }
+                }
+            }
+        }
+
+        if (addPoint)
+        {
+            playerScore += 10;
+            customer.gameObject.GetComponent<CustomerControllerScript>().customerWaitTime += 20;
+            if (customer.gameObject.GetComponent<CustomerControllerScript>().isCustomerAngry)
+            {
+                customer.gameObject.GetComponent<CustomerControllerScript>().CustomerCoolDown(this.gameObject);
+            }
+
+        }
+        else
+        {
+            playerScore -= 10;
+            customer.gameObject.GetComponent<CustomerControllerScript>().AngryCustomer(this.gameObject);   
+        }
+        ClearDiningTable();
+    }
+
+    //To clear the delivered salad
+    void ClearDiningTable()
+    {
+        foreach (var dineItem in customerDineList)
+        {
+            Destroy(dineItem);
+        }
+
+        customerDineList.Clear();
     }
 
     // disable the player movement for chopping vegetables
