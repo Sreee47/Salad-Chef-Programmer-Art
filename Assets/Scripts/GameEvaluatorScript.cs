@@ -127,8 +127,8 @@ public class GameEvaluatorScript : MonoBehaviour {
     {
         if(playerList[0].GetComponent<PlayerControllerScript>().timeLeft <= 0 && playerList[1].GetComponent<PlayerControllerScript>().timeLeft <= 0)
         {
-            player1Score = playerList[0].GetComponent<PlayerControllerScript>().playerScore;
-            player2Score = playerList[1].GetComponent<PlayerControllerScript>().playerScore;
+            player2Score = playerList[0].GetComponent<PlayerControllerScript>().playerScore;
+            player1Score = playerList[1].GetComponent<PlayerControllerScript>().playerScore;
             return true;
         }
         else

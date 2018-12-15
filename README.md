@@ -19,6 +19,9 @@ If the customer is served with a varitey of salad he likes the point gets added 
     -   Right     - l
     -   Pick Item - h
     -   Drop Item - u
+
+# Instructions
+1. To trigger pick up and drop items, the player should be in motion.    
     
 # Previous Updates
 1. Basic level structure for the game is added. The assets used for the design is placed in the 2d Assets folder.
