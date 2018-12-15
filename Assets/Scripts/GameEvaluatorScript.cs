@@ -15,6 +15,7 @@ public class GameEvaluatorScript : MonoBehaviour {
 
     bool endGame = false;
     bool notComplete = true;
+    //for storing player scores
     int player1Score;
     int player2Score;
 
@@ -29,7 +30,11 @@ public class GameEvaluatorScript : MonoBehaviour {
 	void Start () {
         playerList = GameObject.FindGameObjectsWithTag("Player");
         victoryPanel.SetActive(false);
-        
+
+        //Stores and accesses player preferences between game sessions.
+        // For storing top 10 highscores.
+
+        //checks wether the key is available for session storage.
         if (!PlayerPrefs.HasKey("HighScore"))
         {
             var scoreArray = new int[10];
@@ -37,6 +42,9 @@ public class GameEvaluatorScript : MonoBehaviour {
             {
                 scoreArray[i] = -100;
             }
+
+            //Storing Datas in array. 
+            //PlayerPrefsX script is added in the thirdparty/scripts folder. 
             PlayerPrefsX.SetIntArray("HighScore",scoreArray);
         }
 	}
@@ -61,7 +69,7 @@ public class GameEvaluatorScript : MonoBehaviour {
     }
 
 
-
+    //For deciding the winner.
     void DecesionMaker()
     {
         if (notComplete)
@@ -93,6 +101,8 @@ public class GameEvaluatorScript : MonoBehaviour {
         
         
     }
+
+    //Adding the highest score to game session.
     void AddHighScore(int score)
     {
         int[] currentHighScores = PlayerPrefsX.GetIntArray("HighScore");
@@ -127,6 +137,8 @@ public class GameEvaluatorScript : MonoBehaviour {
         }
     }
 
+
+    //Restart the game.
     public void RestartGame()
     {
         SceneManager.LoadScene("Level1");

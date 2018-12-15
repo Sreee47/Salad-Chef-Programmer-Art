@@ -10,7 +10,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>
     </RootNamespace>
-    <ProjectGuid>{755401C8-971C-449E-9D82-C52926E5D061}</ProjectGuid>
+    <ProjectGuid>{77600A28-9191-62C1-9AB1-5182B8C1F796}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -64,18 +64,18 @@
     <Compile Include="Assets\Scripts\CustomerControllerScript.cs" />
     <Compile Include="Assets\Scripts\GameEvaluatorScript.cs" />
     <Compile Include="Assets\Scripts\PlayerControllerScript.cs" />
-    <Compile Include="Assets\Scripts\PlayerPrefsX.cs" />
+    <Compile Include="Assets\ThirdPartyAssets\Scripts\PlayerPrefsX.cs" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>C:/Users/Ren/Desktop/sreeraj unity/mygame/Salad Chef 2D/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/Ren/Desktop/sreeraj unity/New folder/Salad-Chef-Programmer-Art/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/Ren/Desktop/sreeraj unity/mygame/Salad Chef 2D/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/Ren/Desktop/sreeraj unity/New folder/Salad-Chef-Programmer-Art/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/Ren/Desktop/sreeraj unity/mygame/Salad Chef 2D/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/Ren/Desktop/sreeraj unity/New folder/Salad-Chef-Programmer-Art/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/Ren/Desktop/sreeraj unity/mygame/Salad Chef 2D/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/Ren/Desktop/sreeraj unity/New folder/Salad-Chef-Programmer-Art/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2018.2.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
