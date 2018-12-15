@@ -3,6 +3,23 @@ Salad-Chef-Programmer-Art is a "Couch Co-Op" simulation game which simulates a s
 
 If the customer is served with a varitey of salad he likes the point gets added for the chef. If the varitey is disliked by the customer then the customer gets angry and the chefs point reduces.If the customer is given a proper salad within brfore 70% of waiting time then customer happiness level increases and then the chef is prized with a random powerup like speed boost, extra points and extra time. The game ends when the timmer goes zero and the chef with the maximum points wins the game.
 
+# Game Controles
+1. Player 1 :
+    -   Forward   - w
+    -   Backward  - s
+    -   Left      - a
+    -   Right     - d
+    -   Pick Item - f
+    -   Drop Item - e
+
+2. Player 2 :
+    -   Forward   - i
+    -   Backward  - k
+    -   Left      - j
+    -   Right     - l
+    -   Pick Item - h
+    -   Drop Item - u
+    
 # Previous Updates
 1. Basic level structure for the game is added. The assets used for the design is placed in the 2d Assets folder.
 
@@ -22,20 +39,42 @@ If the customer is served with a varitey of salad he likes the point gets added 
 
 7. Serving salad to the customers.
 
+8. Multiplayer Added.
+
+9. Customer Management - combination verification for the customer.
+
+10. Customer Timer added.
+
+11. Angry customer and cool down added -  The customer who is angry will burn up their timer fast if they are not cooled asap.
+
+12. Score Management of the players- based on the customer reactions and player interaction with customer.
+
+13. HUD Display added for timer and score display.
+
+14. Timer Management
+
+15. Winner Decision and Display.
+
+16. Restart Button implemented
+
 # Updates
 1. Bug Fix - Automatic movement of the player during choping is fixed. 
-1. Multiplayer Added.
-2. Customer Management - combination verification for the customer.
-3. Customer Timer added.
-4. Angry customer and cool down added -  The customer who is angry will burn up their timer fast if they are not cooled asap. 
-3. Score Management of the players- based on the customer reactions and player interaction with customer.
-4. HUD Display added for timer and score displaye.
-5. Timer Management
-6. Winner Decision and Display.
-7. Restart Button implemented
+2. Power ups based on the player performance.
+3. High score history added.
 
 
-# Upcomming Updates 
-1. Power ups based on the player performance.
+
+# Future Updates 
+1. Dynamic customers.
+2. Audio for more realistic effect.
+3. Angry customer animation.
+4. More featured pickups.
+5. Optimized code for easy management.
+6. Help Guide.
+7. Settings menu for key mapping, audio controle.
+8. New avatar selections for the players.
+9. New theme selections.
+10. Arcade and Championship modes.
+11. Minor bug fixes- placing one veggie by veggie for chopping.
 
 

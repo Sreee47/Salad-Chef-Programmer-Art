@@ -8,6 +8,7 @@ TagManager:
   - ChopBoard
   - TrashCan
   - DiningPlate
+  - Powerup
   layers:
   - Default
   - TransparentFX

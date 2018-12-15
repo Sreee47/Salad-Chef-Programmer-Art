@@ -64,7 +64,7 @@ public class CustomerControllerScript : MonoBehaviour {
         customerTimerRate += 2;
         penalizePlayer.Add(player);
         isCustomerAngry = true;
-        print(isCustomerAngry);
+       
     }
 
    public void CustomerCoolDown(GameObject player)
@@ -72,7 +72,7 @@ public class CustomerControllerScript : MonoBehaviour {
         customerTimerRate -= 2;
         penalizePlayer.Remove(player);
         isCustomerAngry = false;
-        print(isCustomerAngry);
+       
     }
 
 

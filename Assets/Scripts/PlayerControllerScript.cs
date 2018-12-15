@@ -44,12 +44,19 @@ public class PlayerControllerScript : MonoBehaviour {
     //Trash can declaration
     public GameObject trashCan;
 
+    //EvaluatorGameobject for pickup
+    public GameObject gameController;
+
     private float defaultSpeed;
 
     //to determine wether its a combination to be served for the customer.
     public bool combinationReadyToServe;
 
+    //To set players moving condition.
     public bool canMove = true;
+
+    //To enable a player for powerup.
+    public bool readyToPowerUp = false;
 
     //Hud display for the score of the player
     public Text playerScoreText;
@@ -57,6 +64,7 @@ public class PlayerControllerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        gameController = GameObject.Find("GameController");
         defaultSpeed = playerSpeed;
         playerBasket = new List<GameObject>(2);
         playerChopPlate = new List<GameObject>(3);
@@ -75,7 +83,7 @@ public class PlayerControllerScript : MonoBehaviour {
         MovePlayer();
     }
 
-
+    //To display the live score and the timings in the HUD.
     void HudDisplay()
     {
         playerScoreText.text = "Score : " + playerScore.ToString();
@@ -140,9 +148,22 @@ public class PlayerControllerScript : MonoBehaviour {
            
         }
     }
-    
+
+    //Sent when another object enters a trigger collider attached to this object for 2D physics
+    //Here its used to collect pickups.
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+        
+        if(collision.gameObject.tag == "Powerup" && readyToPowerUp)
+        {
+            
+            AddPower(collision.gameObject);
+        }
+    }
+
     //detects amd sents each frame when the another object is in the trigger collider of the gameobject.
-   void OnTriggerStay2D(Collider2D collision)
+    void OnTriggerStay2D(Collider2D collision)
     {
 
         PickDrop(collision);       
@@ -151,7 +172,7 @@ public class PlayerControllerScript : MonoBehaviour {
     //checks wether the player has given the input to pick or drop the vegetables
     void PickDrop(Collider2D item)
     {
-
+        
         if (Input.GetKeyDown(pickItem))
         {
            
@@ -161,6 +182,7 @@ public class PlayerControllerScript : MonoBehaviour {
         {
             
             DropItemFunc(item);
+           
         }
     }
 
@@ -218,6 +240,7 @@ public class PlayerControllerScript : MonoBehaviour {
 
     }
 
+
     //To drop particular vegetable & combination.
     void DropItemFunc(Collider2D item)
     {
@@ -226,20 +249,18 @@ public class PlayerControllerScript : MonoBehaviour {
         if (playerBasket.Count >0)
         {
              // Drop the vegetable to the chopboard
-            if (item.gameObject== chopBoard.gameObject)
+            if (item.gameObject == chopBoard.gameObject)
             {
-                print("chopBoard");
                 if (playerChopPlate.Count<3)
-                {
-                    if (playerBasket.Count > 0)
-                    {
-                       
-                        GameObject vegItem = playerBasket[playerBasket.Count - 1];
+                {    
+                    
+                        GameObject vegItem = playerBasket[playerBasket.Count-1];
                         playerChopPlate.Add(vegItem);
                         vegItem.transform.parent = chopBoard.gameObject.transform;
                         playerBasket.Remove(vegItem);
                         StartCoroutine(ChopingTime());
-                    }
+
+                    
                 }
             }
 
@@ -257,7 +278,7 @@ public class PlayerControllerScript : MonoBehaviour {
             //drop vegetable to the side plates
             if (item.gameObject == servingPlate.gameObject)
             {
-                print("serving plate");
+          
                 if (servingPlateItem.Count < 1)
                 {
                     GameObject vegItem = playerBasket[playerBasket.Count - 1];
@@ -296,7 +317,7 @@ public class PlayerControllerScript : MonoBehaviour {
     {
         bool addPoint = true;
         
-        if(customerDineList.Count < childVegies.Count) 
+        if(customerDineList.Count != childVegies.Count) 
         {
             addPoint = false;
             ClearDiningTable();
@@ -331,6 +352,7 @@ public class PlayerControllerScript : MonoBehaviour {
                 customer.gameObject.GetComponent<CustomerControllerScript>().CustomerCoolDown(this.gameObject);
             }
 
+            CheckPowerUpEligibility(customer.gameObject);
         }
         else
         {
@@ -351,11 +373,63 @@ public class PlayerControllerScript : MonoBehaviour {
         customerDineList.Clear();
     }
 
+    // Check wether the player is eligible for powerup spawn.
+    //Player should have served proper salad within 70% time limit of the customer waiting time. 
+     void CheckPowerUpEligibility(GameObject customer)
+    {
+        var totalTime = customer.GetComponent<CustomerControllerScript>().customerInitialTime;
+        var eligibleTime = totalTime - (totalTime * 0.7); 
+        var currentTime = customer.GetComponent<CustomerControllerScript>().customerWaitTime;
+        if (currentTime >= eligibleTime)
+        {
+            readyToPowerUp = true;
+            gameController.GetComponent<GameEvaluatorScript>().SpawnPickUp();
+
+            //To remove ability to pick powerups after some time
+            StartCoroutine(RemovePowerUpAbility());
+        }
+    }
+
+    // Add power to the player based on the pickup the player has got.
+    void AddPower(GameObject powerUp)
+    {
+        if(powerUp.name.Contains("AddScore"))
+        {
+            playerScore += 50;
+        }
+        if(powerUp.name.Contains("timer"))
+        {
+            timeLeft += 50;
+        }
+        if(powerUp.name.Contains("Speedup"))
+        {
+            StartCoroutine(BoltUp());
+        }
+        Destroy(powerUp);
+        readyToPowerUp = false;
+
+    }
+
+    // Speedup the player for 10 seconds. 
+    IEnumerator BoltUp()
+    {
+        playerSpeed += 5;
+        yield return new WaitForSeconds(10);
+        playerSpeed = defaultSpeed;
+    }
+
     // disable the player movement for chopping vegetables
      IEnumerator ChopingTime()
     {
         canMove = false;
         yield return new WaitForSeconds(2);
         canMove = true;
+    }
+
+    //Disabling the player power to accept powerups
+    IEnumerator RemovePowerUpAbility()
+    {
+        yield return new WaitForSeconds(10);
+        readyToPowerUp = false;
     }
 }
