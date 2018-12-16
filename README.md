@@ -65,6 +65,7 @@ If the customer is served with a varitey of salad he likes the point gets added 
 
 # Updates
 1. Bug Fix - can pick up and drop the veggies even if the player is not in motion.
+2. Droping vegetables one by one to the chopping board. The vegetable first collected will be kept for choping.
 2. New Launch Screen added.
 
 # Future Updates 
@@ -78,6 +79,5 @@ If the customer is served with a varitey of salad he likes the point gets added 
 8. New avatar selections for the players.
 9. New theme selections.
 10. Arcade and Championship modes.
-11. Minor bug fixes- placing one veggie by veggie for chopping.
 
 

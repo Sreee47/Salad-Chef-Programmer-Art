@@ -4,12 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class SceneControllerScript : MonoBehaviour {
 
-
-
-    public void PlayGame()
-    {
-        SceneManager.LoadScene("Level 1");
+    public void PlayGame () {
+        SceneManager.LoadScene ("Level 1");
     }
-	
-	
+
 }
