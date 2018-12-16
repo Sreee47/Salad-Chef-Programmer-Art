@@ -35,7 +35,7 @@ public class GameEvaluatorScript : MonoBehaviour {
         // For storing top 10 highscores.
 
         //checks wether the key is available for session storage.
-        if (!PlayerPrefs.HasKey("HighScore"))
+        if (!PlayerPrefs.HasKey("HighScor"))
         {
             var scoreArray = new int[10];
             for(int i = 0; i < 10; i++)
@@ -45,7 +45,7 @@ public class GameEvaluatorScript : MonoBehaviour {
 
             //Storing Datas in array. 
             //PlayerPrefsX script is added in the thirdparty/scripts folder. 
-            PlayerPrefsX.SetIntArray("HighScore",scoreArray);
+            PlayerPrefsX.SetIntArray("HighScor",scoreArray);
         }
 	}
 	
@@ -105,17 +105,24 @@ public class GameEvaluatorScript : MonoBehaviour {
     //Adding the highest score to game session.
     void AddHighScore(int score)
     {
-        int[] currentHighScores = PlayerPrefsX.GetIntArray("HighScore");
-       if (currentHighScores[currentHighScores.Length - 1] < score)
+        int[] currentHighScores = PlayerPrefsX.GetIntArray("HighScor");
+        Array.Sort(currentHighScores);
+        Array.Reverse(currentHighScores);
+        if (currentHighScores[9] < score)
         {
-            currentHighScores[currentHighScores.Length-1] = score;
+            currentHighScores[9] = score;
             Array.Sort(currentHighScores);
-            PlayerPrefsX.SetIntArray("HighScore",currentHighScores);
+            Array.Reverse(currentHighScores);
+            PlayerPrefsX.SetIntArray("HighScor",currentHighScores);
         }
         highscores.text += ": ";
         for(int i = 0; i < currentHighScores.Length; i++)
         {
-            highscores.text += currentHighScores[i].ToString() +",";
+            highscores.text += currentHighScores[i].ToString();
+            if(i!=(currentHighScores.Length - 1))
+            {
+                highscores.text += ",";
+            }
 
         }
 
@@ -127,10 +134,21 @@ public class GameEvaluatorScript : MonoBehaviour {
     {
         if(playerList[0].GetComponent<PlayerControllerScript>().timeLeft <= 0 && playerList[1].GetComponent<PlayerControllerScript>().timeLeft <= 0)
         {
-            player2Score = playerList[0].GetComponent<PlayerControllerScript>().playerScore;
-            player1Score = playerList[1].GetComponent<PlayerControllerScript>().playerScore;
+            if (playerList[0].name == "Player1")
+            {
+                player1Score = playerList[0].GetComponent<PlayerControllerScript>().playerScore;
+                player2Score = playerList[1].GetComponent<PlayerControllerScript>().playerScore;
+            }
+            else
+            {
+                player2Score = playerList[0].GetComponent<PlayerControllerScript>().playerScore;
+                player1Score = playerList[1].GetComponent<PlayerControllerScript>().playerScore;
+            }
+            
+
             return true;
         }
+
         else
         {
             return false;
@@ -142,5 +160,9 @@ public class GameEvaluatorScript : MonoBehaviour {
     public void RestartGame()
     {
         SceneManager.LoadScene("Level1");
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

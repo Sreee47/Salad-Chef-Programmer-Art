@@ -345,7 +345,7 @@ public class PlayerControllerScript : MonoBehaviour {
 
         if (addPoint)
         {
-            playerScore += 10;
+            playerScore += 20;
             customer.gameObject.GetComponent<CustomerControllerScript>().customerWaitTime += 20;
             if (customer.gameObject.GetComponent<CustomerControllerScript>().isCustomerAngry)
             {

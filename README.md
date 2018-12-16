@@ -18,10 +18,7 @@ If the customer is served with a varitey of salad he likes the point gets added 
     -   Left      - j
     -   Right     - l
     -   Pick Item - h
-    -   Drop Item - u
-
-# Instructions
-1. To trigger pick up and drop items, the player should be in motion.    
+    -   Drop Item - u  
     
 # Previous Updates
 1. Basic level structure for the game is added. The assets used for the design is placed in the 2d Assets folder.
@@ -60,12 +57,15 @@ If the customer is served with a varitey of salad he likes the point gets added 
 
 16. Restart Button implemented
 
+17. Power ups based on the player performance.
+
+18. Bug Fix - Automatic movement of the player during choping is fixed.
+
+19. High score history added.
+
 # Updates
-1. Bug Fix - Automatic movement of the player during choping is fixed. 
-2. Power ups based on the player performance.
-3. High score history added.
-
-
+1. Bug Fix - can pick up and drop the veggies even if the player is not in motion.
+2. New Launch Screen added.
 
 # Future Updates 
 1. Dynamic customers.

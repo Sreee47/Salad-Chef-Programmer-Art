@@ -11,7 +11,7 @@ public class CustomerControllerScript : MonoBehaviour {
     public float customerWaitTime;
 
     //initial customer wait time
-    public float customerInitialTime = 150.0f;
+    public float customerInitialTime = 180.0f;
 
     //Customer time buffer rate for dynamic timing based in the combinations required for the customer.
     public int customerTimerRate = 4;
@@ -56,7 +56,7 @@ public class CustomerControllerScript : MonoBehaviour {
             GameObject[] playerList = GameObject.FindGameObjectsWithTag("Player");
             foreach(var player in playerList)
             {
-                player.GetComponent<PlayerControllerScript>().playerScore -= 20;
+                player.GetComponent<PlayerControllerScript>().playerScore -= 10;
                 Destroy(customer);
             }
             if (isCustomerAngry)
